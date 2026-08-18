@@ -1,0 +1,173 @@
+:root {
+  --text: #1f2328;
+  --text-dim: #57606a;
+  --bg: #ffffff;
+  --border: #d0d7de;
+  --success-bg: #dafbe1;
+  --success-text: #116329;
+  --warning-bg: #fff8c5;
+  --warning-text: #7d4e00;
+  --error-bg: #ffebe9;
+  --error-text: #82071e;
+  --accent: #0969da;
+
+  color-scheme: light dark;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #e6edf3;
+    --text-dim: #9198a1;
+    --bg: #0d1117;
+    --border: #30363d;
+    --success-bg: #0f2e1a;
+    --success-text: #56d364;
+    --warning-bg: #3b2f00;
+    --warning-text: #e3b341;
+    --error-bg: #3d1418;
+    --error-text: #ff7b72;
+    --accent: #4493f8;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+.page {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+h1 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.banner {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--text-dim);
+}
+
+.banner-error {
+  border-color: var(--error-text);
+  color: var(--error-text);
+  background: var(--error-bg);
+}
+
+.banner-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.banner-times {
+  font-size: 13px;
+}
+
+.badge {
+  display: inline-flex;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.badge-upcoming {
+  background: var(--warning-bg);
+  color: var(--warning-text);
+}
+
+.badge-active {
+  background: var(--success-bg);
+  color: var(--success-text);
+}
+
+.badge-ended {
+  background: var(--border);
+  color: var(--text-dim);
+}
+
+.stock {
+  font-size: 14px;
+  color: var(--text);
+}
+
+.buy-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.buy-form label {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.buy-form-row {
+  display: flex;
+  gap: 8px;
+}
+
+.buy-form input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 15px;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.buy-form button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.buy-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.feedback {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.feedback-success {
+  background: var(--success-bg);
+  color: var(--success-text);
+}
+
+.feedback-warning {
+  background: var(--warning-bg);
+  color: var(--warning-text);
+}
+
+.feedback-error {
+  background: var(--error-bg);
+  color: var(--error-text);
+}
