@@ -1,4 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  ServiceUnavailableException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import Redis from 'ioredis';
@@ -23,7 +27,7 @@ export class SaleService {
   async getStatus(): Promise<SaleStatus> {
     const config = await this.getConfig();
     if (!config) {
-      throw new Error('Sale is not configured');
+      throw new ServiceUnavailableException('Sale is not configured');
     }
 
     return {

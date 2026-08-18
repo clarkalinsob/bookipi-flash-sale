@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { SaleController } from './sale.controller';
 import { SaleService } from './sale.service';
 import { SaleConfig, SaleConfigSchema } from './schemas/sale-config.schema';
 
@@ -9,6 +10,7 @@ import { SaleConfig, SaleConfigSchema } from './schemas/sale-config.schema';
       { name: SaleConfig.name, schema: SaleConfigSchema },
     ]),
   ],
+  controllers: [SaleController],
   providers: [SaleService],
   exports: [SaleService],
 })
