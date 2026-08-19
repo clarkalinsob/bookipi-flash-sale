@@ -3,7 +3,10 @@
  * Playwright fixtures, and CI. Reuses the same env vars and schema/keys as
  * the running app so seeded state always matches what the API will read.
  *
- * Usage: ts-node -r tsconfig-paths/register scripts/seed-sale.ts [--state=active] [--stock=5]
+ * Usage: ts-node -r tsconfig-paths/register scripts/seed-sale.ts [--state=active] [--stock=5] [--in=3600]
+ * --in only applies to --state=upcoming: seconds from now until the sale starts
+ * (default 3600 = 1 hour). Use a short value (e.g. --in=30) for a live demo of
+ * the frontend's countdown.
  */
 import 'dotenv/config';
 import mongoose from 'mongoose';
@@ -13,7 +16,7 @@ import { STOCK_KEY, PURCHASED_SET_KEY } from '../src/redis/redis.keys';
 
 type SaleState = 'upcoming' | 'active' | 'ended';
 
-function parseArgs(): { state: SaleState; stock: number } {
+function parseArgs(): { state: SaleState; stock: number; inSeconds: number } {
   const args = new Map(
     process.argv.slice(2).map((arg) => {
       const [key, value] = arg.replace(/^--/, '').split('=');
@@ -22,21 +25,27 @@ function parseArgs(): { state: SaleState; stock: number } {
   );
   const state = (args.get('state') ?? 'active') as SaleState;
   const stock = parseInt(args.get('stock') ?? '5', 10);
+  const inSeconds = parseInt(args.get('in') ?? '3600', 10);
   if (!['upcoming', 'active', 'ended'].includes(state)) {
     throw new Error(`Invalid --state: ${state}`);
   }
-  return { state, stock };
+  return { state, stock, inSeconds };
 }
 
-function windowFor(state: SaleState): { startTime: Date; endTime: Date } {
+function windowFor(
+  state: SaleState,
+  inSeconds: number,
+): { startTime: Date; endTime: Date } {
   const now = Date.now();
   const hour = 60 * 60_000;
   switch (state) {
-    case 'upcoming':
+    case 'upcoming': {
+      const startsIn = inSeconds * 1000;
       return {
-        startTime: new Date(now + hour),
-        endTime: new Date(now + 2 * hour),
+        startTime: new Date(now + startsIn),
+        endTime: new Date(now + startsIn + hour),
       };
+    }
     case 'ended':
       return {
         startTime: new Date(now - 2 * hour),
@@ -52,8 +61,8 @@ function windowFor(state: SaleState): { startTime: Date; endTime: Date } {
 }
 
 async function main() {
-  const { state, stock } = parseArgs();
-  const { startTime, endTime } = windowFor(state);
+  const { state, stock, inSeconds } = parseArgs();
+  const { startTime, endTime } = windowFor(state, inSeconds);
 
   const mongoUri =
     process.env.MONGO_URI ?? 'mongodb://localhost:27017/flash-sale';

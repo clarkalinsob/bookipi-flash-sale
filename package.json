@@ -8,6 +8,7 @@
     "start:all:server": "npm run start:dev --prefix server",
     "start:all:client": "npm run dev --prefix client",
     "stop:all": "docker compose down && npx --yes kill-port 3000 5173",
+    "demo": "docker compose up -d --wait && npm run seed --prefix server -- --state=upcoming --stock=5 --in=45 && npm run start:all",
     "prepare": "husky"
   },
   "devDependencies": {
