@@ -149,7 +149,7 @@ The latency numbers reflect Docker Desktop's WSL2 network relay overhead on this
 
 ## In production on AWS
 
-No live deploy is required or included beyond the optional demo in `PRD.md` §7. This maps the local setup to how it would run in production:
+No live deploy is required or included beyond the optional demo in `PRD.md` section 7. This maps the local setup to how it would run in production — and [`infra/production-reference/`](infra/production-reference/) is that mapping as real, `terraform validate`-clean Terraform rather than just prose, including autoscaling thresholds derived from the actual stress-test numbers below. It's deliberately never applied; see that module's own README for why.
 
 | Concern | Local (this repo) | AWS in production |
 |---|---|---|
@@ -167,7 +167,7 @@ No live deploy is required or included beyond the optional demo in `PRD.md` §7.
 Explicitly out of scope for this exercise, per its own guidance against gold-plating:
 
 - **A message queue implementation.** The SQS write-behind idea above is the real production fix for the one known correctness gap in this system — naming it and knowing exactly what it fixes is the point; building a queue here would be gold-plating a problem that requires two independent low-probability failures to actually manifest.
-- **A live AWS deployment**, beyond the optional, no-cost Phase 7 demo (a single free-tier EC2 instance running the same `docker-compose.yml`) — see `PRD.md` §7 and §10.
+- **A live AWS deployment**, beyond the optional, no-cost Phase 7 demo (a single free-tier EC2 instance running the same `docker-compose.yml`) — see `PRD.md` sections 7 and 10.
 - **Kubernetes, multi-region infrastructure, or a live-triggered autoscaling event.** The AWS mapping above documents the autoscaling story (ECS `aws_appautoscaling_policy` grounded in the stress-test numbers) as inspectable IaC rather than a costly live demo.
 
 ## Repo structure

@@ -1,0 +1,9 @@
+# Never applied — see README.md. This exists purely so `terraform plan`
+# has a plausible, non-empty set of values to reason about if someone wants
+# to inspect the plan output without real infrastructure decisions in hand.
+# Copy to terraform.tfvars only if actually proceeding with a real deploy.
+
+aws_region           = "ap-southeast-2"
+project_name         = "flash-sale"
+environment          = "production"
+api_container_image  = "123456789012.dkr.ecr.ap-southeast-2.amazonaws.com/flash-sale-api:latest"

@@ -4,3 +4,15 @@ dist/
 *.log
 coverage/
 .DS_Store
+
+# Claude Code local tooling state
+.claude/
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+crash.*.log
