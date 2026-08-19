@@ -32,7 +32,7 @@ function App() {
   return (
     <main className="page">
       <h1>Flash Sale</h1>
-      <StatusBanner status={status} error={error} />
+      <StatusBanner status={status} error={error} onCountdownComplete={refreshStatus} />
       <BuyForm onSettled={refreshStatus} />
     </main>
   );
