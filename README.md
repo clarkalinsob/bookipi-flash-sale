@@ -96,11 +96,25 @@ npm run stop:all        # docker compose down, plus kills anything left on 3000/
 
 `start:all` runs the backend and frontend concurrently in one terminal (`Ctrl+C` stops both); `stop:all` is the matching teardown for containers and stray processes.
 
-No sale is configured out of the box. Seed one for manual testing with `server/scripts/seed-sale.ts` — it writes the matching `SaleConfig` doc and Redis stock/purchased-set in one step, so they can never drift out of sync the way two hand-typed `mongosh`/`redis-cli` commands could:
+### Quick demo
+
+For walking someone through the app without typing anything else:
+
+```bash
+npm run demo
+```
+
+This boots Mongo/Redis, waits for both to report healthy, seeds a sale that
+starts in 45 seconds — so the frontend's live countdown is the first thing
+you see — and starts the backend and frontend together. Open
+`http://localhost:5173` right after running it.
+
+No sale is configured out of the box otherwise. Seed one for manual testing with `server/scripts/seed-sale.ts` — it writes the matching `SaleConfig` doc and Redis stock/purchased-set in one step, so they can never drift out of sync the way two hand-typed `mongosh`/`redis-cli` commands could:
 
 ```bash
 cd server
-npm run seed -- --state=active --stock=5     # or --state=upcoming / --state=ended
+npm run seed -- --state=active --stock=5       # or --state=upcoming / --state=ended
+npm run seed -- --state=upcoming --in=30        # upcoming, starting in 30s — what `npm run demo` uses
 ```
 
 The same script backs the Playwright fixtures below, so manual testing and CI seed sale state identically.
