@@ -1,0 +1,23 @@
+{
+  "name": "bookipi-flash-sale",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Root dev orchestration: docker compose (Mongo/Redis) + server + client in one command.",
+  "scripts": {
+    "start:all": "docker compose up -d && concurrently -k -n SERVER,CLIENT -c blue,magenta \"npm:start:all:server\" \"npm:start:all:client\"",
+    "start:all:server": "npm run start:dev --prefix server",
+    "start:all:client": "npm run dev --prefix client",
+    "stop:all": "docker compose down && npx --yes kill-port 3000 5173",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1",
+    "husky": "^9.1.7",
+    "kill-port": "^2.0.1",
+    "lint-staged": "^17.3.0"
+  },
+  "lint-staged": {
+    "server/**/*.ts": "npm run lint --prefix server",
+    "client/**/*.{ts,tsx}": "npm run lint --prefix client"
+  }
+}
